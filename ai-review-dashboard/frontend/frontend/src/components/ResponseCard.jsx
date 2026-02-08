@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import { Copy, Check } from 'lucide-react';
+import { Copy, Check, Sparkles } from 'lucide-react';
 
-const ResponseCard = ({ title, content }) => {
+const ResponseCard = ({ title, content, delay }) => {
     const [copied, setCopied] = useState(false);
 
     const handleCopy = () => {
@@ -11,22 +11,27 @@ const ResponseCard = ({ title, content }) => {
     };
 
     return (
-        <div className="bg-dark-800 border border-dark-700 rounded-xl p-5 hover:border-brand-500/50 transition-all duration-300 group">
-            <div className="flex justify-between items-center mb-3">
-                <h3 className="text-brand-500 font-bold text-sm uppercase tracking-wider">{title}</h3>
+        <div
+            className="bg-white/5 backdrop-blur-md border border-white/10 rounded-xl p-6 hover:border-primary-500/30 transition-all duration-300 animate-fade-in group shadow-lg"
+            style={{ animationDelay: `${delay}ms` }}
+        >
+            <div className="flex justify-between items-center mb-4 pb-3 border-b border-white/5">
+                <div className="flex items-center gap-2">
+                    <Sparkles size={16} className="text-primary-500" />
+                    <h3 className="text-slate-200 font-bold text-sm uppercase tracking-widest">{title}</h3>
+                </div>
                 <button
                     onClick={handleCopy}
-                    className="text-slate-500 hover:text-white transition-colors p-1 rounded-md hover:bg-dark-700"
-                    title="Copy to clipboard"
+                    className="p-2 rounded-lg bg-white/5 hover:bg-primary-500 hover:text-white text-slate-400 transition-all duration-200"
+                    title="Copy"
                 >
-                    {copied ? <Check size={16} className="text-green-400" /> : <Copy size={16} />}
+                    {copied ? <Check size={16} /> : <Copy size={16} />}
                 </button>
             </div>
-            <p className="text-slate-300 text-sm leading-relaxed whitespace-pre-wrap">
+            <p className="text-slate-300 text-sm leading-7 whitespace-pre-wrap font-light">
                 {content}
             </p>
         </div>
     );
 };
-
 export default ResponseCard;

@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
-import { Sparkles, Bot, MessageSquare } from 'lucide-react';
+import { Bot, Zap, LayoutDashboard, Terminal } from 'lucide-react';
 import Button from './components/Button';
 import TextArea from './components/TextArea';
 import ResponseCard from './components/ResponseCard';
 import SentimentBadge from './components/SentimentBadge';
 
 
-const API_URL = import.meta.env.VITE_API_URL
+const API_URL = import.meta.env.VITE_API_URL;
 
 function App() {
   const [review, setReview] = useState('');
@@ -29,94 +29,103 @@ function App() {
       const data = await response.json();
       setResult(data);
     } catch (error) {
-      alert("Error connecting to server. Make sure backend is running!");
+      alert("Error: Backend is offline or API key is missing.");
     } finally {
       setLoading(false);
     }
   };
 
   return (
-    <div className="min-h-screen bg-dark-900 flex flex-col items-center py-12 px-4 sm:px-6">
+    <div className="relative min-h-screen flex flex-col items-center py-10 px-4 sm:px-6 overflow-hidden">
 
-      <div className="text-center mb-10">
-        <div className="flex justify-center mb-4">
-          <div className="bg-dark-800 p-3 rounded-2xl border border-dark-700 shadow-xl shadow-brand-500/10">
-            <Bot size={40} className="text-brand-500" />
-          </div>
+      {/* Background Animated Blobs */}
+      <div className="absolute top-0 left-0 w-96 h-96 bg-primary-600 rounded-full mix-blend-multiply filter blur-[128px] opacity-20 animate-blob"></div>
+      <div className="absolute top-0 right-0 w-96 h-96 bg-accent-500 rounded-full mix-blend-multiply filter blur-[128px] opacity-20 animate-blob animation-delay-2000"></div>
+
+      <header className="relative z-10 text-center mb-12">
+        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/5 border border-white/10 text-xs font-medium text-primary-400 mb-6 backdrop-blur-sm">
+          <span className="flex h-2 w-2 rounded-full bg-green-500"></span>
+          System Online v1.0
         </div>
-        <h1 className="text-4xl font-bold text-white mb-2 tracking-tight">
-          Review<span className="text-brand-500">AI</span> Architect
+
+        <h1 className="text-5xl md:text-6xl font-black text-transparent bg-clip-text bg-gradient-to-r from-white via-slate-200 to-slate-400 mb-4 tracking-tight">
+          Review<span className="text-transparent bg-clip-text bg-gradient-to-r from-primary-500 to-accent-500">Master</span> AI
         </h1>
-        <p className="text-slate-400 max-w-md mx-auto">
-          Turn customer feedback into professional responses in seconds using Gemini 1.5 AI.
+        <p className="text-slate-400 text-lg max-w-xl mx-auto leading-relaxed">
+          Transform raw feedback into strategic responses using enterprise-grade artificial intelligence.
         </p>
-      </div>
+      </header>
 
-      <main className="w-full max-w-5xl grid grid-cols-1 lg:grid-cols-2 gap-8">
 
-        <div className="space-y-6">
-          <div className="bg-dark-800/50 p-6 rounded-2xl border border-dark-700 shadow-lg">
-            <TextArea
-              value={review}
-              onChange={setReview}
-              placeholder="Example: The product is great but shipping took too long and the box was damaged..."
-            />
-            <div className="mt-6">
-              <Button onClick={handleAnalyze} loading={loading}>
-                <Sparkles size={20} />
-                Generate Analysis & Replies
-              </Button>
+      <main className="relative z-10 w-full max-w-6xl grid grid-cols-1 lg:grid-cols-12 gap-8">
+        <div className="lg:col-span-5 space-y-6">
+          <div className="bg-dark-900/50 backdrop-blur-2xl border border-white/10 p-1 rounded-3xl shadow-2xl">
+            <div className="bg-dark-950/80 rounded-[20px] p-6 border border-white/5">
+              <div className="flex items-center gap-3 mb-6 text-slate-300">
+                <Terminal size={20} className="text-primary-500" />
+                <h2 className="font-bold tracking-wide text-sm uppercase">Input Console</h2>
+              </div>
+
+              <TextArea
+                value={review}
+                onChange={setReview}
+                placeholder="Paste customer review here..."
+              />
+
+              <div className="mt-8">
+                <Button onClick={handleAnalyze} loading={loading}>
+                  <Zap size={20} className={loading ? "hidden" : "fill-current"} />
+                  {loading ? "Analyzing..." : "Initialize Analysis"}
+                </Button>
+              </div>
             </div>
           </div>
-
-          <div className="bg-dark-800/30 p-4 rounded-xl border border-dark-700/50">
-            <h4 className="text-sm font-semibold text-slate-400 mb-2 flex items-center gap-2">
-              <MessageSquare size={16} /> Pro Tip
-            </h4>
-            <p className="text-xs text-slate-500">
-              Paste reviews directly from Amazon, TrustPilot, or Google. The AI detects sentiment and context automatically.
-            </p>
-          </div>
         </div>
-
-
-        <div className="space-y-6">
+        <div className="lg:col-span-7">
           {!result && !loading && (
-            <div className="h-full flex flex-col items-center justify-center text-slate-600 border-2 border-dashed border-dark-700 rounded-2xl p-10 min-h-[400px]">
-              <Sparkles size={48} className="mb-4 opacity-20" />
-              <p>Ready to analyze...</p>
+            <div className="h-full min-h-[500px] flex flex-col items-center justify-center bg-white/5 border border-white/10 border-dashed rounded-3xl text-slate-500 p-12 text-center backdrop-blur-sm">
+              <div className="bg-dark-800 p-4 rounded-full mb-6">
+                <LayoutDashboard size={40} className="text-slate-600 opacity-50" />
+              </div>
+              <h3 className="text-xl font-bold text-slate-400 mb-2">Awaiting Data</h3>
+              <p className="max-w-xs text-sm">Enter a review in the console to generate sentiment analysis and response strategies.</p>
             </div>
           )}
 
           {result && (
-            <div className="animate-fade-in space-y-6">
-
-
-              <div className="flex justify-between items-center bg-dark-800 p-4 rounded-xl border border-dark-700">
-                <span className="text-slate-400 text-sm">Detected Sentiment:</span>
-                <SentimentBadge sentiment={result.sentiment} />
+            <div className="space-y-6 animate-fade-in">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div className="bg-dark-900/60 backdrop-blur-xl border border-white/10 p-5 rounded-2xl flex items-center justify-between">
+                  <span className="text-sm text-slate-400 font-medium">Sentiment Score</span>
+                  <SentimentBadge sentiment={result.sentiment} />
+                </div>
+                <div className="bg-dark-900/60 backdrop-blur-xl border border-white/10 p-5 rounded-2xl">
+                  <span className="text-sm text-slate-400 font-medium block mb-2">Key Signals Detected</span>
+                  <div className="flex flex-wrap gap-2">
+                    {result.key_points.slice(0, 3).map((pt, i) => (
+                      <span key={i} className="text-xs bg-white/10 px-2 py-1 rounded text-slate-300 border border-white/5">
+                        {pt}
+                      </span>
+                    ))}
+                  </div>
+                </div>
               </div>
 
-
-              <div className="bg-dark-800 p-4 rounded-xl border border-dark-700">
-                <p className="text-xs font-bold text-slate-500 uppercase mb-3">Key Takeaways</p>
-                <ul className="space-y-2">
-                  {result.key_points.map((point, i) => (
-                    <li key={i} className="flex items-start gap-2 text-sm text-slate-300">
-                      <span className="text-brand-500 mt-1">•</span> {point}
-                    </li>
+              <div className="bg-dark-900/40 backdrop-blur-3xl border border-white/10 rounded-3xl p-6 shadow-2xl">
+                <h3 className="text-xs font-bold text-slate-500 uppercase tracking-widest mb-6 flex items-center gap-2">
+                  <Bot size={16} /> Generated Strategies
+                </h3>
+                <div className="grid gap-4">
+                  {Object.entries(result.responses).map(([tone, text], idx) => (
+                    <ResponseCard
+                      key={tone}
+                      title={tone}
+                      content={text}
+                      delay={idx * 150}
+                    />
                   ))}
-                </ul>
+                </div>
               </div>
-
-
-              <div className="space-y-4">
-                <p className="text-xs font-bold text-slate-500 uppercase">Drafted Responses</p>
-                {Object.entries(result.responses).map(([tone, text]) => (
-                  <ResponseCard key={tone} title={tone} content={text} />
-                ))}
-              </div>
-
             </div>
           )}
         </div>
