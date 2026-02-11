@@ -4,7 +4,7 @@
 ![Tech Stack](https://img.shields.io/badge/Stack-React%20%7C%20Python%20%7C%20FastAPI%20%7C%20Gemini%20AI-blue?style=for-the-badge)
 ![License](https://img.shields.io/badge/License-MIT-purple?style=for-the-badge)
 
-**ReviewMaster AI** is a next-generation automated dashboard designed to streamline customer support workflows. It leverages **Google's Gemini 1.5 Flash** model to analyze customer feedback in real-time, detect sentiment patterns, and generate context-aware response strategies instantly.
+**ReviewMaster AI** is a next-generation automated dashboard designed to streamline customer support workflows. It leverages **Google's Gemini 2.5 Flash** model to analyze customer feedback in real-time, detect sentiment patterns, and generate context-aware response strategies instantly.
 
 ---
 
